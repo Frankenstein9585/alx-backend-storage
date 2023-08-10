@@ -11,5 +11,5 @@ BEGIN
 	SET corrections.score = score 
 	WHERE user_id = user_id AND project_id = project_id;
 
-END
+END$$
 DELIMITER ;
