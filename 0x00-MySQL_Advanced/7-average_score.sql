@@ -1,5 +1,5 @@
 -- creates a stored procedure that calculates the average score for a student 
-DROP PROCEDURE ComputeAverageScoreForUser;
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
