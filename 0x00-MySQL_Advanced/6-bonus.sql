@@ -1,13 +1,14 @@
 -- creates a stored procedure that adds a new correction for a student
 DELIMITER $$
-CREATE PROCEDURE AddBonus(user_id INT, project_name VARCHAR(255), score INT)
+CREATE PROCEDURE AddBonus(IN user_id INT, IN project_name VARCHAR(255), IN score INT)
 BEGIN
-	IF NOT EXISTS (SELECT * FROM projects WHERE name = project_name) THEN
-		INSERT INTO projects (name) VALUES (project_name);
-	END IF;
 	DECLARE project_id INT;
-	SET project_id = (SELECT id FROM projects WHERE name = project_name);
-	INSERT INTO corrections VALUES (user_id, project_id, score);
+	SELECT id INTO project_id FROM projects WHERE name = project_name;
+	IF NOT EXISTS (SELECT name FROM projects WHERE name = project_name) THEN
+		INSERT INTO projects (name) VALUES (project_name);
+		SET project_id = LAST_INSERT_ID();
+	END IF;
+	INSERT INTO corrections (user_id, project_id, score) VALUES (user_id, project_id, score);
 
 END$$
 DELIMITER ;
