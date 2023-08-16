@@ -1,9 +1,23 @@
 #!/usr/bin/env python3
 """This file contains a class that handle data storage using redis"""
+from functools import wraps
 from typing import Union, Callable, Optional
 
 import redis
 import uuid
+
+
+def count_calls(method: Callable) -> Callable:
+    """This counts the number of calls made to a method"""
+    key = method.__qualname__
+
+    @wraps(method)
+    def counter(self, *args, **kwargs):
+        """This is a decorator method"""
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+
+    return counter
 
 
 class Cache:
@@ -32,6 +46,7 @@ class Cache:
         """This method is used to parametrize Cache.get()"""
         return self.get(key, lambda value: value.decode('utf-8'))
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """This method takes data as an argument and returns a string"""
         key = str(uuid.uuid4())
