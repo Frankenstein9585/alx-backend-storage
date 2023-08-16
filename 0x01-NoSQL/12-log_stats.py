@@ -12,6 +12,7 @@ methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 for method in methods:
     print('\tmethod {}: {}'.
           format(method, nginx.count_documents({"method": method})))
-print('{} status check'.format(nginx.count_documents({"method": "GET", "path": "/status"})))
+print('{} status check'.format(nginx.count_documents
+                               ({"method": "GET", "path": "/status"})))
 
 client.close()
