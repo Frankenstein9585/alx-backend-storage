@@ -4,6 +4,7 @@ import pymongo
 
 
 def print_log():
+    """This function provides some stats about Nginx logs stored in MongoDB"""
     client = pymongo.MongoClient()
     db = client.logs
     nginx = db.nginx
